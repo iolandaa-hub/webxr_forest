@@ -16,17 +16,9 @@
 <script>
 // ================= TREE INFO =================
 const treeData = {
-  mango: {
-    name: "Mango Tree",
-    info: "Native to South Asia. Produces mango fruit. Can live over 100 years in tropical climates."
-  },
-  oak: {
-    name: "Oak Tree",
-    info: "Long-living hardwood tree found in temperate regions. Can live 200–1000 years depending on species."
-  },
-  pine: {
-    name: "Pine Tree",
-    info: "Evergreen conifer found in cold climates. Produces cones and can live hundreds of years."
+  conifer: {
+    name: "Conifer Tree",
+    info: "Conifer trees are evergreen trees found in cold and temperate regions. They produce cones instead of flowers and can live for hundreds of years."
   }
 };
 </script>
@@ -53,33 +45,16 @@ const treeData = {
     color="#3d8b3d">
   </a-plane>
 
-  <!-- ================= TREES ================= -->
+  <!-- ================= TREE ================= -->
 
-  <!-- MANGO -->
   <a-entity
     class="clickable"
-    id="mango"
-    gltf-model="mango_tree.glb"
-    position="-4 0 -6"
-    scale="0.2 0.2 0.2">
-  </a-entity>
-
-  <!-- OAK -->
-  <a-entity
-    class="clickable"
-    id="oak"
-    gltf-model="oak_tree.glb"
+    id="conifer"
+    gltf-model="conifer.glb"
     position="0 0 -6"
-    scale="0.2 0.2 0.2">
-  </a-entity>
-
-  <!-- PINE -->
-  <a-entity
-    class="clickable"
-    id="pine"
-    gltf-model="pine_tree.glb"
-    position="4 0 -6"
-    scale="0.2 0.2 0.2">
+    scale="0.05 0.05 0.05"
+    event-set__enter="_event: mouseenter; scale: 0.06 0.06 0.06"
+    event-set__leave="_event: mouseleave; scale: 0.05 0.05 0.05">
   </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
@@ -108,7 +83,8 @@ const treeData = {
 </a-scene>
 
 <script>
-// ================= UI =================
+
+// ================= UI ELEMENTS =================
 const hoverLabel = document.querySelector("#hoverLabel");
 const hoverText = document.querySelector("#hoverText");
 
@@ -118,6 +94,7 @@ const infoText = document.querySelector("#infoText");
 // ================= INTERACTION =================
 document.querySelectorAll(".clickable").forEach(el => {
 
+  // HOVER
   el.addEventListener("mouseenter", () => {
     const id = el.id;
     hoverLabel.setAttribute("visible", true);
@@ -128,6 +105,7 @@ document.querySelectorAll(".clickable").forEach(el => {
     hoverLabel.setAttribute("visible", false);
   });
 
+  // CLICK
   el.addEventListener("click", () => {
     const id = el.id;
 
@@ -139,6 +117,7 @@ document.querySelectorAll(".clickable").forEach(el => {
   });
 
 });
+
 </script>
 
 </body>
