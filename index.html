@@ -14,29 +14,31 @@
 <body>
 
 <script>
-// ================= TREE DATA =================
+// ================= TREE INFO =================
 const treeData = {
-  conifer: {
-    name: "Conifer Tree",
-    info: "Evergreen tree found in cold and temperate regions. Produces cones and lives for hundreds of years."
+  bamboo: {
+    name: "Bamboo",
+    info: "Bamboo is a fast-growing grass found in Asia. Some species can grow over 1 meter per day and are widely used for construction and textiles."
   },
-  pine: {
-    name: "Pine Tree",
-    info: "Pine trees are conifers with long needles. They are widely used for timber and can live for centuries."
+  date_palm: {
+    name: "Date Palm",
+    info: "Date palms are common in desert regions of the Middle East and North Africa. They produce sweet edible dates and can live over 100 years."
+  },
+  beech_tree: {
+    name: "Beech Tree",
+    info: "Beech trees are large deciduous trees found in temperate Europe. They can live up to 300 years and form dense, shaded forests."
   }
 };
 
-// ================= MODEL DEBUG COMPONENT =================
+// ================= DEBUG COMPONENT =================
 AFRAME.registerComponent('model-debug', {
   init: function () {
-    const el = this.el;
-
-    el.addEventListener('model-loaded', () => {
-      console.log("✅ LOADED:", el.getAttribute('gltf-model'));
+    this.el.addEventListener('model-loaded', () => {
+      console.log("✅ LOADED:", this.el.getAttribute('gltf-model'));
     });
 
-    el.addEventListener('model-error', (e) => {
-      console.error("❌ FAILED TO LOAD:", el.getAttribute('gltf-model'), e);
+    this.el.addEventListener('model-error', () => {
+      console.error("❌ FAILED:", this.el.getAttribute('gltf-model'));
     });
   }
 });
@@ -66,23 +68,35 @@ AFRAME.registerComponent('model-debug', {
 
   <!-- ================= TREES ================= -->
 
- <!-- CONIFER -->
-<a-entity
-  class="clickable"
-  id="conifer"
-  gltf-model="conifer.glb"
-  position="-1.5 0 -4"
-  scale="1 1 1">
-</a-entity>
+  <!-- BAMBOO -->
+  <a-entity
+    class="clickable"
+    id="bamboo"
+    gltf-model="bamboo.glb"
+    position="-2 0 -4"
+    scale="0.05 0.05 0.05"
+    model-debug>
+  </a-entity>
 
-<!-- PINE -->
-<a-entity
-  class="clickable"
-  id="pine"
-  gltf-model="pine_tree.glb"
-  position="1.5 0 -4"
-  scale="0.02 0.02 0.02">
-</a-entity>
+  <!-- DATE PALM -->
+  <a-entity
+    class="clickable"
+    id="date_palm"
+    gltf-model="date_palm.glb"
+    position="0 0 -4"
+    scale="0.05 0.05 0.05"
+    model-debug>
+  </a-entity>
+
+  <!-- BEECH TREE -->
+  <a-entity
+    class="clickable"
+    id="beech_tree"
+    gltf-model="beech_tree.glb"
+    position="2 0 -4"
+    scale="0.05 0.05 0.05"
+    model-debug>
+  </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
   <a-entity id="hoverLabel" visible="false" position="0 2 -3">
@@ -118,10 +132,9 @@ const hoverText = document.querySelector("#hoverText");
 const infoBox = document.querySelector("#infoBox");
 const infoText = document.querySelector("#infoText");
 
-// ================= INTERACTIONS =================
+// ================= INTERACTION =================
 document.querySelectorAll(".clickable").forEach(el => {
 
-  // HOVER
   el.addEventListener("mouseenter", () => {
     const id = el.id;
     hoverLabel.setAttribute("visible", true);
@@ -132,7 +145,6 @@ document.querySelectorAll(".clickable").forEach(el => {
     hoverLabel.setAttribute("visible", false);
   });
 
-  // CLICK
   el.addEventListener("click", () => {
     const id = el.id;
 
