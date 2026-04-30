@@ -5,29 +5,34 @@
   <title>Tree Learning WebXR</title>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+  <style>
+    body { margin: 0; }
+  </style>
 </head>
 
 <body>
 
 <script>
-// ================= TREE DATA =================
+// ================= TREE INFO =================
 const treeData = {
   mango: {
     name: "Mango Tree",
-    info: "Native to South Asia. Produces edible mango fruits. Can live over 100 years in warm tropical climates."
+    info: "Native to South Asia. Produces mango fruit. Can live over 100 years in tropical climates."
   },
   pine: {
     name: "Pine Tree",
-    info: "Evergreen conifer found in colder regions. Can live 100–1000 years depending on species. Produces pine cones."
+    info: "Evergreen conifer found in cold regions. Can live 100–1000 years depending on species."
   },
   birch: {
-    name: "PSX Birch Tree",
-    info: "A stylized birch tree often found in game environments. Real birch trees grow in temperate climates and are known for white bark and fast growth."
+    name: "Birch Tree",
+    info: "Stylized birch tree often used in games. Real birch trees grow fast and have white bark."
   }
 };
 </script>
 
-<a-scene>
+<!-- FOG + SCENE -->
+<a-scene fog="type: linear; color: #bfe7ff; near: 5; far: 25">
 
   <!-- CAMERA -->
   <a-entity camera look-controls>
@@ -35,53 +40,50 @@ const treeData = {
   </a-entity>
 
   <!-- SKY -->
-  <a-sky color="#bfe7ff"></a-sky>
+  <a-sky color="#cfefff"></a-sky>
 
-  <!-- LIGHTS -->
-  <a-light type="ambient" intensity="0.8"></a-light>
-  <a-light type="directional" position="5 10 5"></a-light>
+  <!-- LIGHTING (FIXED) -->
+  <a-light type="ambient" intensity="1.2"></a-light>
+  <a-light type="directional" position="5 10 5" intensity="1.5"></a-light>
 
   <!-- GROUND -->
   <a-plane
     rotation="-90 0 0"
     width="60"
     height="60"
-    color="#3c8d3f">
+    color="#3d8b3d">
   </a-plane>
 
   <!-- ================= TREES ================= -->
 
-  <!-- MANGO TREE -->
+  <!-- MANGO -->
   <a-entity
     class="clickable"
     id="mango"
     gltf-model="assets/mango_tree.glb"
     position="-4 0 -6"
-    scale="1.2 1.2 1.2"
-    event-set__enter="_event: mouseenter; scale: 1.4 1.4 1.4"
-    event-set__leave="_event: mouseleave; scale: 1.2 1.2 1.2">
+    scale="0.2 0.2 0.2"
+    rotation="0 0 0">
   </a-entity>
 
-  <!-- PINE TREE -->
+  <!-- PINE -->
   <a-entity
     class="clickable"
     id="pine"
     gltf-model="assets/pine_tree.glb"
     position="0 0 -6"
-    scale="1.2 1.2 1.2"
-    event-set__enter="_event: mouseenter; scale: 1.4 1.4 1.4"
-    event-set__leave="_event: mouseleave; scale: 1.2 1.2 1.2">
+    scale="0.2 0.2 0.2"
+    rotation="0 0 0">
   </a-entity>
 
-  <!-- BIRCH TREE -->
+  <!-- BIRCH -->
   <a-entity
     class="clickable"
     id="birch"
     gltf-model="assets/psx_birch_tree.glb"
     position="4 0 -6"
-    scale="1.2 1.2 1.2"
-    event-set__enter="_event: mouseenter; scale: 1.4 1.4 1.4"
-    event-set__leave="_event: mouseleave; scale: 1.2 1.2 1.2">
+    scale="0.2 0.2 0.2"
+    rotation="0 0 0">
   </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
@@ -110,20 +112,19 @@ const treeData = {
 </a-scene>
 
 <script>
-// ================= UI ELEMENTS =================
+// ================= UI =================
 const hoverLabel = document.querySelector("#hoverLabel");
 const hoverText = document.querySelector("#hoverText");
 
 const infoBox = document.querySelector("#infoBox");
 const infoText = document.querySelector("#infoText");
 
-// ================= INTERACTION =================
+// ================= INTERACTIONS =================
 document.querySelectorAll(".clickable").forEach(el => {
 
   // HOVER
   el.addEventListener("mouseenter", () => {
     const id = el.id;
-
     hoverLabel.setAttribute("visible", true);
     hoverText.setAttribute("value", treeData[id].name);
   });
