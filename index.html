@@ -5,7 +5,6 @@
   <title>Tree Learning WebXR</title>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-  <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
 
   <style>
     body { margin: 0; }
@@ -37,113 +36,88 @@ AFRAME.registerComponent('model-debug', {
     this.el.addEventListener('model-loaded', () => {
       console.log("LOADED:", this.el.getAttribute('gltf-model'));
     });
+
     this.el.addEventListener('model-error', () => {
       console.error("FAILED:", this.el.getAttribute('gltf-model'));
     });
   }
 });
-
-// (optional safety helper — ensures raycast hits mesh)
-AFRAME.registerComponent('raycastable', {
-  init: function () {
-    this.el.setAttribute('visible', true);
-  }
-});
 </script>
 
-<a-scene raycaster="objects: .clickable; far: 10">
+<a-scene fog="type: linear; color: #cfefff; near: 2; far: 12">
+
+<a-camera position="0 1.2 1.5" look-controls="true">
+  <a-cursor raycaster="objects: .clickable"></a-cursor>
+</a-camera>
 
   <!-- SKY -->
-  <a-sky src="https://cdn.polyhaven.com/asset_img/primary/grasslands_sunset.png?height=760&quality=95"></a-sky>
+  <a-sky color="#cfefff"></a-sky>
+
+  <!-- LIGHT -->
+  <a-light type="ambient" intensity="1.3"></a-light>
+  <a-light type="directional" position="2 5 2" intensity="1.2"></a-light>
 
   <!-- GROUND -->
   <a-plane
     rotation="-90 0 0"
-    width="50"
-    height="50"
-    color="#7fbf6a">
+    width="30"
+    height="30"
+    color="#3d8b3d">
   </a-plane>
 
-  <!-- CAMERA -->
-  <a-entity position="0 1.6 2">
-    <a-camera look-controls>
-      <a-cursor raycaster="objects: .clickable" fuse="false"></a-cursor>
-    </a-camera>
-  </a-entity>
+  <!-- ================= TREES (CLOSE + BIG) ================= -->
 
-  <!-- LIGHT -->
-  <a-light type="ambient" intensity="1.2"></a-light>
-
-  <!-- ================= TREES ================= -->
-
+  <!-- BAMBOO -->
   <a-entity
     class="clickable"
     id="bamboo"
     gltf-model="bamboo.glb"
     position="-0.8 0 -2"
-    scale="0.25 0.25 0.25"
-    model-debug
-    raycastable>
+    scale="0.2 0.2 0.2"
+    model-debug>
   </a-entity>
 
+  <!-- DATE PALM -->
   <a-entity
     class="clickable"
     id="date_palm"
     gltf-model="date_palm.glb"
     position="0 0 -2"
-    scale="0.25 0.25 0.25"
-    model-debug
-    raycastable>
+    scale="0.2 0.2 0.2"
+    model-debug>
   </a-entity>
 
+  <!-- BEECH TREE -->
   <a-entity
     class="clickable"
     id="beech_tree"
     gltf-model="beech_tree.glb"
     position="0.8 0 -2"
-    scale="0.25 0.25 0.25"
-    model-debug
-    raycastable>
+    scale="0.2 0.2 0.2"
+    model-debug>
   </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
   <a-entity id="hoverLabel" visible="false" position="0 2 -1.5">
-    <a-plane width="2.6" height="0.7" color="#111827" opacity="0.75"></a-plane>
-
-    <a-text
-      id="hoverText"
+    <a-plane width="2.5" height="0.6" color="#111" opacity="0.85"></a-plane>
+    <a-text id="hoverText"
       value=""
       align="center"
       color="#ffffff"
-      position="0 0 0.01"
-      width="3">
+      position="0 0 0.01">
     </a-text>
   </a-entity>
 
   <!-- ================= INFO BOX ================= -->
   <a-entity id="infoBox" visible="false" position="0 1.4 -1.2">
-
-    <a-plane width="4" height="2.3" color="#0f172a" opacity="0.9"></a-plane>
-
-    <a-text
-      id="infoTitle"
+    <a-plane width="3.5" height="2" color="#000" opacity="0.9"></a-plane>
+    <a-text id="infoText"
       value=""
       align="center"
+      wrap-count="32"
       color="#ffffff"
-      position="0 0.75 0.01"
-      width="4">
+      position="0 0 0.01">
     </a-text>
-
-    <a-text
-      id="infoText"
-      value=""
-      align="center"
-      color="#cbd5e1"
-      position="0 -0.2 0.01"
-      wrap-count="38"
-      width="3.8">
-    </a-text>
-
   </a-entity>
 
 </a-scene>
@@ -155,22 +129,15 @@ const hoverLabel = document.querySelector("#hoverLabel");
 const hoverText = document.querySelector("#hoverText");
 
 const infoBox = document.querySelector("#infoBox");
-const infoTitle = document.querySelector("#infoTitle");
 const infoText = document.querySelector("#infoText");
 
-// CLOSE ON BACKGROUND CLICK
-document.querySelector("a-scene").addEventListener("click", (e) => {
-  if (e.target.tagName === "CANVAS") {
-    infoBox.setAttribute("visible", false);
-  }
-});
-
-// INTERACTIONS
+// ================= INTERACTIONS =================
 document.querySelectorAll(".clickable").forEach(el => {
 
   el.addEventListener("mouseenter", () => {
+    const id = el.id;
     hoverLabel.setAttribute("visible", true);
-    hoverText.setAttribute("value", treeData[el.id].name);
+    hoverText.setAttribute("value", treeData[id].name);
   });
 
   el.addEventListener("mouseleave", () => {
@@ -178,9 +145,13 @@ document.querySelectorAll(".clickable").forEach(el => {
   });
 
   el.addEventListener("click", () => {
+    const id = el.id;
+
     infoBox.setAttribute("visible", true);
-    infoTitle.setAttribute("value", treeData[el.id].name);
-    infoText.setAttribute("value", treeData[el.id].info);
+    infoText.setAttribute(
+      "value",
+      treeData[id].name + "\n\n" + treeData[id].info
+    );
   });
 
 });
