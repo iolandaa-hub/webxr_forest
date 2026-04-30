@@ -56,14 +56,13 @@ AFRAME.registerComponent('wind-sway', {
 <a-scene>
 
   <!-- HDRI STYLE ENVIRONMENT -->
- <a-sky src="https://cdn.polyhaven.com/asset_img/primary/kloppenheim_06_puresky.png?height=760&quality=95"></a-sky>
+ <a-sky src="https://cdn.polyhaven.com/asset_img/primary/grasslands_sunset.png?height=760&quality=95"></a-sky>
 
   <!-- CAMERA -->
-  <a-entity position="0 1.6 0">
-  <a-camera wasd-controls="acceleration: 20" look-controls>
+ <a-camera position="0 1.2 1.5" look-controls>
     <a-cursor raycaster="objects: .clickable"></a-cursor>
   </a-camera>
-</a-entity>
+
 
   <!-- LIGHT -->
   <a-light type="ambient" intensity="1.2"></a-light>
