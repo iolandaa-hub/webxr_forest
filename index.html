@@ -46,9 +46,10 @@ AFRAME.registerComponent('model-debug', {
 
 <a-scene fog="type: linear; color: #cfefff; near: 2; far: 12">
 
-<a-camera position="0 1.2 1.5" look-controls="true">
-  <a-cursor raycaster="objects: .clickable"></a-cursor>
-</a-camera>
+  <!-- CAMERA -->
+  <a-camera position="0 1.2 1.5" look-controls>
+    <a-cursor raycaster="objects: .clickable"></a-cursor>
+  </a-camera>
 
   <!-- SKY -->
   <a-sky color="#cfefff"></a-sky>
@@ -65,7 +66,7 @@ AFRAME.registerComponent('model-debug', {
     color="#3d8b3d">
   </a-plane>
 
-  <!-- ================= TREES (CLOSE + BIG) ================= -->
+  <!-- ================= TREES ================= -->
 
   <!-- BAMBOO -->
   <a-entity
@@ -97,27 +98,56 @@ AFRAME.registerComponent('model-debug', {
     model-debug>
   </a-entity>
 
-  <!-- ================= HOVER LABEL ================= -->
+  <!-- ================= MODERN HOVER LABEL ================= -->
   <a-entity id="hoverLabel" visible="false" position="0 2 -1.5">
-    <a-plane width="2.5" height="0.6" color="#111" opacity="0.85"></a-plane>
-    <a-text id="hoverText"
+
+    <!-- background -->
+    <a-plane width="2.6" height="0.7" color="#111827" opacity="0.75"></a-plane>
+
+    <!-- subtle glow layer -->
+    <a-plane width="2.7" height="0.8" color="#38bdf8" opacity="0.12"></a-plane>
+
+    <a-text
+      id="hoverText"
       value=""
       align="center"
       color="#ffffff"
-      position="0 0 0.01">
+      position="0 0 0.01"
+      width="3">
     </a-text>
+
   </a-entity>
 
-  <!-- ================= INFO BOX ================= -->
+  <!-- ================= MODERN INFO BOX ================= -->
   <a-entity id="infoBox" visible="false" position="0 1.4 -1.2">
-    <a-plane width="3.5" height="2" color="#000" opacity="0.9"></a-plane>
-    <a-text id="infoText"
+
+    <!-- main card -->
+    <a-plane width="4" height="2.3" color="#0f172a" opacity="0.88"></a-plane>
+
+    <!-- glow border -->
+    <a-plane width="4.1" height="2.4" color="#22c55e" opacity="0.10"></a-plane>
+
+    <!-- title -->
+    <a-text
+      id="infoTitle"
       value=""
       align="center"
-      wrap-count="32"
       color="#ffffff"
-      position="0 0 0.01">
+      position="0 0.75 0.01"
+      width="4">
     </a-text>
+
+    <!-- body -->
+    <a-text
+      id="infoText"
+      value=""
+      align="center"
+      color="#cbd5e1"
+      position="0 -0.2 0.01"
+      wrap-count="38"
+      width="3.8">
+    </a-text>
+
   </a-entity>
 
 </a-scene>
@@ -129,6 +159,7 @@ const hoverLabel = document.querySelector("#hoverLabel");
 const hoverText = document.querySelector("#hoverText");
 
 const infoBox = document.querySelector("#infoBox");
+const infoTitle = document.querySelector("#infoTitle");
 const infoText = document.querySelector("#infoText");
 
 // ================= INTERACTIONS =================
@@ -148,10 +179,8 @@ document.querySelectorAll(".clickable").forEach(el => {
     const id = el.id;
 
     infoBox.setAttribute("visible", true);
-    infoText.setAttribute(
-      "value",
-      treeData[id].name + "\n\n" + treeData[id].info
-    );
+    infoTitle.setAttribute("value", treeData[id].name);
+    infoText.setAttribute("value", treeData[id].info);
   });
 
 });
