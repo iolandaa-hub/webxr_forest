@@ -20,18 +20,17 @@ const treeData = {
     name: "Mango Tree",
     info: "Native to South Asia. Produces mango fruit. Can live over 100 years in tropical climates."
   },
+  oak: {
+    name: "Oak Tree",
+    info: "Long-living hardwood tree found in temperate regions. Can live 200–1000 years depending on species."
+  },
   pine: {
     name: "Pine Tree",
-    info: "Evergreen conifer found in cold regions. Can live 100–1000 years depending on species."
-  },
-  birch: {
-    name: "Birch Tree",
-    info: "Stylized birch tree often used in games. Real birch trees grow fast and have white bark."
+    info: "Evergreen conifer found in cold climates. Produces cones and can live hundreds of years."
   }
 };
 </script>
 
-<!-- FOG + SCENE -->
 <a-scene fog="type: linear; color: #bfe7ff; near: 5; far: 25">
 
   <!-- CAMERA -->
@@ -42,7 +41,7 @@ const treeData = {
   <!-- SKY -->
   <a-sky color="#cfefff"></a-sky>
 
-  <!-- LIGHTING (FIXED) -->
+  <!-- LIGHTING -->
   <a-light type="ambient" intensity="1.2"></a-light>
   <a-light type="directional" position="5 10 5" intensity="1.5"></a-light>
 
@@ -60,30 +59,27 @@ const treeData = {
   <a-entity
     class="clickable"
     id="mango"
-    gltf-model="assets/mango_tree.glb"
+    gltf-model="mango_tree.glb"
     position="-4 0 -6"
-    scale="0.2 0.2 0.2"
-    rotation="0 0 0">
+    scale="0.2 0.2 0.2">
+  </a-entity>
+
+  <!-- OAK -->
+  <a-entity
+    class="clickable"
+    id="oak"
+    gltf-model="oak_tree.glb"
+    position="0 0 -6"
+    scale="0.2 0.2 0.2">
   </a-entity>
 
   <!-- PINE -->
   <a-entity
     class="clickable"
     id="pine"
-    gltf-model="assets/pine_tree.glb"
-    position="0 0 -6"
-    scale="0.2 0.2 0.2"
-    rotation="0 0 0">
-  </a-entity>
-
-  <!-- BIRCH -->
-  <a-entity
-    class="clickable"
-    id="birch"
-    gltf-model="assets/psx_birch_tree.glb"
+    gltf-model="pine_tree.glb"
     position="4 0 -6"
-    scale="0.2 0.2 0.2"
-    rotation="0 0 0">
+    scale="0.2 0.2 0.2">
   </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
@@ -119,10 +115,9 @@ const hoverText = document.querySelector("#hoverText");
 const infoBox = document.querySelector("#infoBox");
 const infoText = document.querySelector("#infoText");
 
-// ================= INTERACTIONS =================
+// ================= INTERACTION =================
 document.querySelectorAll(".clickable").forEach(el => {
 
-  // HOVER
   el.addEventListener("mouseenter", () => {
     const id = el.id;
     hoverLabel.setAttribute("visible", true);
@@ -133,7 +128,6 @@ document.querySelectorAll(".clickable").forEach(el => {
     hoverLabel.setAttribute("visible", false);
   });
 
-  // CLICK
   el.addEventListener("click", () => {
     const id = el.id;
 
