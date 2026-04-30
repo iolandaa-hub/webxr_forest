@@ -46,11 +46,9 @@ AFRAME.registerComponent('model-debug', {
 
 <a-scene fog="type: linear; color: #cfefff; near: 2; far: 12">
 
-  <a-entity position="0 1.6 2">
-  <a-camera look-controls>
-    <a-cursor raycaster="objects: .clickable"></a-cursor>
-  </a-camera>
-</a-entity>
+<a-camera position="0 1.2 1.5" look-controls="true">
+  <a-cursor raycaster="objects: .clickable"></a-cursor>
+</a-camera>
 
   <!-- SKY -->
   <a-sky color="#cfefff"></a-sky>
