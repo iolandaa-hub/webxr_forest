@@ -59,11 +59,11 @@ AFRAME.registerComponent('wind-sway', {
   <a-entity environment="preset: forest; skyType: gradient; groundColor: #3d8b3d; horizonColor: #cfefff;"></a-entity>
 
   <!-- CAMERA -->
-  <a-entity position="0 1.6 2">
-    <a-camera wasd-controls look-controls>
-      <a-cursor raycaster="objects: .clickable"></a-cursor>
-    </a-camera>
-  </a-entity>
+  <a-entity position="0 1.6 0">
+  <a-camera wasd-controls="acceleration: 20" look-controls>
+    <a-cursor raycaster="objects: .clickable"></a-cursor>
+  </a-camera>
+</a-entity>
 
   <!-- LIGHT -->
   <a-light type="ambient" intensity="1.2"></a-light>
