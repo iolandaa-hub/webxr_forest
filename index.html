@@ -5,10 +5,6 @@
   <title>Tree Learning WebXR</title>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-
-  <style>
-    body { margin: 0; }
-  </style>
 </head>
 
 <body>
@@ -16,17 +12,17 @@
 <script>
 // ================= TREE DATA =================
 const treeData = {
-  quiver: {
-    name: "Quiver Tree",
-    info: "Native to Southern Africa. Can live over 100 years. Stores water in trunk to survive dry climates."
+  mango: {
+    name: "Mango Tree",
+    info: "Native to South Asia. Produces edible mango fruits. Can live over 100 years in warm tropical climates."
   },
-  island_tree: {
-    name: "Island Tree",
-    info: "Found in tropical islands. Adapted to salty air and strong winds. Lifespan varies between 30–80 years."
+  pine: {
+    name: "Pine Tree",
+    info: "Evergreen conifer found in colder regions. Can live 100–1000 years depending on species. Produces pine cones."
   },
-  jacaranda: {
-    name: "Jacaranda Tree",
-    info: "Native to South America. Known for its purple-blue flowers. Can live up to 50 years."
+  birch: {
+    name: "PSX Birch Tree",
+    info: "A stylized birch tree often found in game environments. Real birch trees grow in temperate climates and are known for white bark and fast growth."
   }
 };
 </script>
@@ -38,8 +34,8 @@ const treeData = {
     <a-cursor raycaster="objects: .clickable"></a-cursor>
   </a-entity>
 
-  <!-- SKY (placeholder HDRI) -->
-  <a-sky color="#a3d5ff"></a-sky>
+  <!-- SKY -->
+  <a-sky color="#bfe7ff"></a-sky>
 
   <!-- LIGHTS -->
   <a-light type="ambient" intensity="0.8"></a-light>
@@ -48,44 +44,44 @@ const treeData = {
   <!-- GROUND -->
   <a-plane
     rotation="-90 0 0"
-    width="50"
-    height="50"
-    color="#3a7d44">
+    width="60"
+    height="60"
+    color="#3c8d3f">
   </a-plane>
 
   <!-- ================= TREES ================= -->
 
-  <!-- QUIVER -->
+  <!-- MANGO TREE -->
   <a-entity
     class="clickable"
-    id="quiver"
-    gltf-model="assets/quiver_tree_02_4k-gltf"
-    position="-3 0 -5"
-    scale="1 1 1"
-    event-set__enter="_event: mouseenter; scale: 1.2 1.2 1.2"
-    event-set__leave="_event: mouseleave; scale: 1 1 1">
+    id="mango"
+    gltf-model="assets/mango_tree.glb"
+    position="-4 0 -6"
+    scale="1.2 1.2 1.2"
+    event-set__enter="_event: mouseenter; scale: 1.4 1.4 1.4"
+    event-set__leave="_event: mouseleave; scale: 1.2 1.2 1.2">
   </a-entity>
 
-  <!-- ISLAND TREE -->
+  <!-- PINE TREE -->
   <a-entity
     class="clickable"
-    id="island_tree"
-    gltf-model="assets/island_tree_02_4k.gltf"
-    position="0 0 -5"
-    scale="1 1 1"
-    event-set__enter="_event: mouseenter; scale: 1.2 1.2 1.2"
-    event-set__leave="_event: mouseleave; scale: 1 1 1">
+    id="pine"
+    gltf-model="assets/pine_tree.glb"
+    position="0 0 -6"
+    scale="1.2 1.2 1.2"
+    event-set__enter="_event: mouseenter; scale: 1.4 1.4 1.4"
+    event-set__leave="_event: mouseleave; scale: 1.2 1.2 1.2">
   </a-entity>
 
-  <!-- JACARANDA -->
+  <!-- BIRCH TREE -->
   <a-entity
     class="clickable"
-    id="jacaranda"
-    gltf-model="assets/jakaranda_tree_4k.gltf"
-    position="3 0 -5"
-    scale="1 1 1"
-    event-set__enter="_event: mouseenter; scale: 1.2 1.2 1.2"
-    event-set__leave="_event: mouseleave; scale: 1 1 1">
+    id="birch"
+    gltf-model="assets/psx_birch_tree.glb"
+    position="4 0 -6"
+    scale="1.2 1.2 1.2"
+    event-set__enter="_event: mouseenter; scale: 1.4 1.4 1.4"
+    event-set__leave="_event: mouseleave; scale: 1.2 1.2 1.2">
   </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
@@ -101,11 +97,11 @@ const treeData = {
 
   <!-- ================= INFO BOX ================= -->
   <a-entity id="infoBox" visible="false" position="0 1.5 -2">
-    <a-plane width="3" height="2" color="#000" opacity="0.9"></a-plane>
+    <a-plane width="3.5" height="2" color="#000" opacity="0.9"></a-plane>
     <a-text id="infoText"
       value=""
       align="center"
-      wrap-count="30"
+      wrap-count="32"
       color="#ffffff"
       position="0 0 0.01">
     </a-text>
@@ -124,7 +120,7 @@ const infoText = document.querySelector("#infoText");
 // ================= INTERACTION =================
 document.querySelectorAll(".clickable").forEach(el => {
 
-  // HOVER IN
+  // HOVER
   el.addEventListener("mouseenter", () => {
     const id = el.id;
 
@@ -132,7 +128,6 @@ document.querySelectorAll(".clickable").forEach(el => {
     hoverText.setAttribute("value", treeData[id].name);
   });
 
-  // HOVER OUT
   el.addEventListener("mouseleave", () => {
     hoverLabel.setAttribute("visible", false);
   });
