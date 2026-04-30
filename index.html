@@ -18,7 +18,11 @@
 const treeData = {
   conifer: {
     name: "Conifer Tree",
-    info: "Conifer trees are evergreen trees found in cold and temperate regions. They produce cones instead of flowers and can live for hundreds of years."
+    info: "Conifer trees are evergreen trees found in cold and temperate regions. They produce cones and can live for hundreds of years."
+  },
+  pine: {
+    name: "Pine Tree",
+    info: "Pine trees are evergreen conifers common in the northern hemisphere. They are known for their long needles and durable wood."
   }
 };
 </script>
@@ -45,13 +49,25 @@ const treeData = {
     color="#3d8b3d">
   </a-plane>
 
-  <!-- ================= TREE ================= -->
+  <!-- ================= TREES ================= -->
 
+  <!-- CONIFER -->
   <a-entity
     class="clickable"
     id="conifer"
     gltf-model="conifer.glb"
-    position="0 0 -6"
+    position="-3 0 -6"
+    scale="0.05 0.05 0.05"
+    event-set__enter="_event: mouseenter; scale: 0.06 0.06 0.06"
+    event-set__leave="_event: mouseleave; scale: 0.05 0.05 0.05">
+  </a-entity>
+
+  <!-- PINE -->
+  <a-entity
+    class="clickable"
+    id="pine"
+    gltf-model="pine_tree.glb"
+    position="3 0 -6"
     scale="0.05 0.05 0.05"
     event-set__enter="_event: mouseenter; scale: 0.06 0.06 0.06"
     event-set__leave="_event: mouseleave; scale: 0.05 0.05 0.05">
@@ -84,14 +100,14 @@ const treeData = {
 
 <script>
 
-// ================= UI ELEMENTS =================
+// ================= UI =================
 const hoverLabel = document.querySelector("#hoverLabel");
 const hoverText = document.querySelector("#hoverText");
 
 const infoBox = document.querySelector("#infoBox");
 const infoText = document.querySelector("#infoText");
 
-// ================= INTERACTION =================
+// ================= INTERACTIONS =================
 document.querySelectorAll(".clickable").forEach(el => {
 
   // HOVER
