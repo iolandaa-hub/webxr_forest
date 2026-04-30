@@ -2,64 +2,64 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Tree Learning Experience</title>
+  <title>Tree Learning WebXR</title>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+  <style>
+    body { margin: 0; }
+  </style>
 </head>
 
 <body>
 
 <script>
-// --- TREE DATA (info boxes) ---
+// ================= TREE DATA =================
 const treeData = {
-  jacaranda: {
-    name: "Jacaranda Tree",
-    info: "Native to South America. Known for purple-blue flowers. Can live up to 50 years.",
+  quiver: {
+    name: "Quiver Tree",
+    info: "Native to Southern Africa. Can live over 100 years. Stores water in trunk to survive dry climates."
   },
   island_tree: {
     name: "Island Tree",
-    info: "Found in tropical islands. Adapted to salty air and strong winds. Lifespan varies 30–80 years.",
+    info: "Found in tropical islands. Adapted to salty air and strong winds. Lifespan varies between 30–80 years."
   },
-  quiver: {
-    name: "Quiver Tree",
-    info: "Native to Southern Africa. Can live over 100 years. Stores water in trunk for dry climates.",
+  jacaranda: {
+    name: "Jacaranda Tree",
+    info: "Native to South America. Known for its purple-blue flowers. Can live up to 50 years."
   }
 };
 </script>
 
 <a-scene>
 
-  <!-- CAMERA + CURSOR -->
+  <!-- CAMERA -->
   <a-entity camera look-controls>
-    <a-cursor 
-      raycaster="objects: .clickable"
-      fuse="false">
-    </a-cursor>
+    <a-cursor raycaster="objects: .clickable"></a-cursor>
   </a-entity>
 
-  <!-- SKY (HDR placeholder) -->
-  <a-sky src="assets/hdr.jpg" color="#88ccee"></a-sky>
+  <!-- SKY (placeholder HDRI) -->
+  <a-sky color="#a3d5ff"></a-sky>
+
+  <!-- LIGHTS -->
+  <a-light type="ambient" intensity="0.8"></a-light>
+  <a-light type="directional" position="5 10 5"></a-light>
 
   <!-- GROUND -->
-  <a-plane 
+  <a-plane
     rotation="-90 0 0"
     width="50"
     height="50"
-    src="assets/grass.jpg"
-    repeat="10 10">
+    color="#3a7d44">
   </a-plane>
-
-  <!-- LIGHTS -->
-  <a-light type="ambient" intensity="0.7"></a-light>
-  <a-light type="directional" position="5 10 5"></a-light>
 
   <!-- ================= TREES ================= -->
 
-  <!-- JACARANDA -->
-  <a-entity 
+  <!-- QUIVER -->
+  <a-entity
     class="clickable"
-    id="jacaranda"
-    gltf-model="assets/jacaranda.gltf"
+    id="quiver"
+    gltf-model="assets/quiver_tree_02_4k-gltf"
     position="-3 0 -5"
     scale="1 1 1"
     event-set__enter="_event: mouseenter; scale: 1.2 1.2 1.2"
@@ -67,50 +67,46 @@ const treeData = {
   </a-entity>
 
   <!-- ISLAND TREE -->
-  <a-entity 
+  <a-entity
     class="clickable"
     id="island_tree"
-    gltf-model="assets/island_tree.gltf"
+    gltf-model="assets/island_tree_02_4k.gltf"
     position="0 0 -5"
     scale="1 1 1"
     event-set__enter="_event: mouseenter; scale: 1.2 1.2 1.2"
     event-set__leave="_event: mouseleave; scale: 1 1 1">
   </a-entity>
 
-  <!-- QUIVER -->
-  <a-entity 
+  <!-- JACARANDA -->
+  <a-entity
     class="clickable"
-    id="quiver"
-    gltf-model="assets/quiver.gltf"
+    id="jacaranda"
+    gltf-model="assets/jakaranda_tree_4k.gltf"
     position="3 0 -5"
     scale="1 1 1"
     event-set__enter="_event: mouseenter; scale: 1.2 1.2 1.2"
     event-set__leave="_event: mouseleave; scale: 1 1 1">
   </a-entity>
 
-  <!-- ================= UI: HOVER LABEL ================= -->
-  <a-entity id="hoverLabel"
-    visible="false"
-    position="0 2 -3">
-    <a-plane width="2.5" height="0.6" color="#222" opacity="0.8"></a-plane>
+  <!-- ================= HOVER LABEL ================= -->
+  <a-entity id="hoverLabel" visible="false" position="0 2 -3">
+    <a-plane width="2.5" height="0.6" color="#111" opacity="0.85"></a-plane>
     <a-text id="hoverText"
       value=""
       align="center"
-      color="white"
+      color="#ffffff"
       position="0 0 0.01">
     </a-text>
   </a-entity>
 
-  <!-- ================= UI: INFO BOX ================= -->
-  <a-entity id="infoBox"
-    visible="false"
-    position="0 1.5 -2">
-    <a-plane width="3" height="1.5" color="#111" opacity="0.9"></a-plane>
+  <!-- ================= INFO BOX ================= -->
+  <a-entity id="infoBox" visible="false" position="0 1.5 -2">
+    <a-plane width="3" height="2" color="#000" opacity="0.9"></a-plane>
     <a-text id="infoText"
       value=""
       align="center"
-      color="#ffffff"
       wrap-count="30"
+      color="#ffffff"
       position="0 0 0.01">
     </a-text>
   </a-entity>
@@ -118,20 +114,22 @@ const treeData = {
 </a-scene>
 
 <script>
-// --- HOVER + CLICK LOGIC ---
+// ================= UI ELEMENTS =================
 const hoverLabel = document.querySelector("#hoverLabel");
 const hoverText = document.querySelector("#hoverText");
+
 const infoBox = document.querySelector("#infoBox");
 const infoText = document.querySelector("#infoText");
 
+// ================= INTERACTION =================
 document.querySelectorAll(".clickable").forEach(el => {
 
   // HOVER IN
   el.addEventListener("mouseenter", () => {
     const id = el.id;
+
     hoverLabel.setAttribute("visible", true);
     hoverText.setAttribute("value", treeData[id].name);
-    hoverLabel.setAttribute("position", "0 2 -3");
   });
 
   // HOVER OUT
@@ -142,8 +140,10 @@ document.querySelectorAll(".clickable").forEach(el => {
   // CLICK
   el.addEventListener("click", () => {
     const id = el.id;
+
     infoBox.setAttribute("visible", true);
-    infoText.setAttribute("value",
+    infoText.setAttribute(
+      "value",
       treeData[id].name + "\n\n" + treeData[id].info
     );
   });
