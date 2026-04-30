@@ -14,17 +14,32 @@
 <body>
 
 <script>
-// ================= TREE INFO =================
+// ================= TREE DATA =================
 const treeData = {
   conifer: {
     name: "Conifer Tree",
-    info: "Conifer trees are evergreen trees found in cold and temperate regions. They produce cones and can live for hundreds of years."
+    info: "Evergreen tree found in cold and temperate regions. Produces cones and lives for hundreds of years."
   },
   pine: {
     name: "Pine Tree",
-    info: "Pine trees are evergreen conifers common in the northern hemisphere. They are known for their long needles and durable wood."
+    info: "Pine trees are conifers with long needles. They are widely used for timber and can live for centuries."
   }
 };
+
+// ================= MODEL DEBUG COMPONENT =================
+AFRAME.registerComponent('model-debug', {
+  init: function () {
+    const el = this.el;
+
+    el.addEventListener('model-loaded', () => {
+      console.log("✅ LOADED:", el.getAttribute('gltf-model'));
+    });
+
+    el.addEventListener('model-error', (e) => {
+      console.error("❌ FAILED TO LOAD:", el.getAttribute('gltf-model'), e);
+    });
+  }
+});
 </script>
 
 <a-scene fog="type: linear; color: #bfe7ff; near: 5; far: 25">
@@ -51,26 +66,24 @@ const treeData = {
 
   <!-- ================= TREES ================= -->
 
-  <!-- CONIFER -->
+  <!-- CONIFER (WORKING) -->
   <a-entity
     class="clickable"
     id="conifer"
     gltf-model="conifer.glb"
     position="-3 0 -6"
     scale="0.05 0.05 0.05"
-    event-set__enter="_event: mouseenter; scale: 0.06 0.06 0.06"
-    event-set__leave="_event: mouseleave; scale: 0.05 0.05 0.05">
+    model-debug>
   </a-entity>
 
-  <!-- PINE -->
+  <!-- PINE (PROBLEM CHECKED) -->
   <a-entity
     class="clickable"
     id="pine"
     gltf-model="pine_tree.glb"
     position="3 0 -6"
     scale="0.05 0.05 0.05"
-    event-set__enter="_event: mouseenter; scale: 0.06 0.06 0.06"
-    event-set__leave="_event: mouseleave; scale: 0.05 0.05 0.05">
+    model-debug>
   </a-entity>
 
   <!-- ================= HOVER LABEL ================= -->
