@@ -43,39 +43,38 @@ AFRAME.registerComponent('model-debug', {
   }
 });
 
-// ================= WIND =================
-AFRAME.registerComponent('wind-sway', {
-  schema: { strength: { default: 0.05 } },
-  tick: function (t) {
-    this.el.object3D.rotation.z =
-      Math.sin(t / 1000) * this.data.strength;
+// (optional safety helper — ensures raycast hits mesh)
+AFRAME.registerComponent('raycastable', {
+  init: function () {
+    this.el.setAttribute('visible', true);
   }
 });
 </script>
 
-<a-scene>
+<a-scene raycaster="objects: .clickable; far: 10">
 
-  <!-- 🌅 SKY (your image used correctly) -->
+  <!-- SKY -->
   <a-sky src="https://cdn.polyhaven.com/asset_img/primary/grasslands_sunset.png?height=760&quality=95"></a-sky>
 
-  <!-- 🌿 GROUND (to match grasslands feel) -->
+  <!-- GROUND -->
   <a-plane
     rotation="-90 0 0"
     width="50"
     height="50"
-    color="#7fbf6a"
-    material="roughness: 1; metalness: 0">
+    color="#7fbf6a">
   </a-plane>
 
-  <!-- 📷 CAMERA (fixed height) -->
-  <a-camera position="0 0 0" look-controls>
-    <a-cursor raycaster="objects: .clickable"></a-cursor>
-  </a-camera>
+  <!-- CAMERA -->
+  <a-entity position="0 1.6 2">
+    <a-camera look-controls>
+      <a-cursor raycaster="objects: .clickable" fuse="false"></a-cursor>
+    </a-camera>
+  </a-entity>
 
-  <!-- 💡 LIGHT -->
+  <!-- LIGHT -->
   <a-light type="ambient" intensity="1.2"></a-light>
 
-  <!-- 🌲 TREES -->
+  <!-- ================= TREES ================= -->
 
   <a-entity
     class="clickable"
@@ -84,7 +83,7 @@ AFRAME.registerComponent('wind-sway', {
     position="-0.8 0 -2"
     scale="0.25 0.25 0.25"
     model-debug
-    wind-sway="strength: 0.03">
+    raycastable>
   </a-entity>
 
   <a-entity
@@ -94,7 +93,7 @@ AFRAME.registerComponent('wind-sway', {
     position="0 0 -2"
     scale="0.25 0.25 0.25"
     model-debug
-    wind-sway="strength: 0.02">
+    raycastable>
   </a-entity>
 
   <a-entity
@@ -104,12 +103,11 @@ AFRAME.registerComponent('wind-sway', {
     position="0.8 0 -2"
     scale="0.25 0.25 0.25"
     model-debug
-    wind-sway="strength: 0.04">
+    raycastable>
   </a-entity>
 
-  <!-- 💬 HOVER LABEL -->
+  <!-- ================= HOVER LABEL ================= -->
   <a-entity id="hoverLabel" visible="false" position="0 2 -1.5">
-
     <a-plane width="2.6" height="0.7" color="#111827" opacity="0.75"></a-plane>
 
     <a-text
@@ -120,10 +118,9 @@ AFRAME.registerComponent('wind-sway', {
       position="0 0 0.01"
       width="3">
     </a-text>
-
   </a-entity>
 
-  <!-- 📦 INFO PANEL -->
+  <!-- ================= INFO BOX ================= -->
   <a-entity id="infoBox" visible="false" position="0 1.4 -1.2">
 
     <a-plane width="4" height="2.3" color="#0f172a" opacity="0.9"></a-plane>
